@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-mark">🎓</div>
+        <div class="logo-text">
+          <h2>EduPortal</h2>
+          <span>College Dashboard</span>
+        </div>
+        <button class="close-sidebar-btn" id="closeSidebarBtn" aria-label="Close Sidebar">✕</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <button class="nav-item active" data-section="dashboard">
+              <span class="nav-icon">📊</span>
+              <span class="nav-label">Dashboard</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-section="courses">
+              <span class="nav-icon">📚</span>
+              <span class="nav-label">My Courses</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-section="attendance">
+              <span class="nav-icon">📅</span>
+              <span class="nav-label">Attendance</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-section="assignments">
+              <span class="nav-icon">📝</span>
+              <span class="nav-label">Assignments</span>
+              <span class="badge" id="pendingAssignmentsBadge">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-section="examination">
+              <span class="nav-icon">📝</span>
+              <span class="nav-label">Examination</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-section="profile">
+              <span class="nav-icon">👤</span>
+              <span class="nav-label">Profile</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="quick-user">
+          <div class="avatar" id="sidebarAvatar">VS</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebarUserName">Student</span>
+            <span class="user-dept" id="sidebarUserDept">Computer Science</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Navbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="Toggle Menu">
+            ☰
+          </button>
+          <div class="page-title-area">
+            <h1 id="pageTitle">Dashboard Overview</h1>
+            <p id="pageSubtitle">Welcome back! Here's your academic summary.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Dark Mode" title="Toggle Theme">
+            <span class="theme-icon" id="themeIcon">🌙</span>
+            <span class="theme-label" id="themeLabel">Dark</span>
+          </button>
+          <div class="profile-pill" id="topProfilePill">
+            <div class="avatar" id="topNavAvatar">VS</div>
+            <span class="profile-name" id="topNavName">Student Name</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Container -->
+      <div class="content-body">
+        
+        <!-- ================= SECTION 1: DASHBOARD ================= -->
+        <section id="section-dashboard" class="content-section active">
+          <!-- Welcome Hero Banner -->
+          <div class="welcome-banner">
+            <div class="welcome-text">
+              <h2 id="welcomeHeading">Hello, Student! 👋</h2>
+              <p>You have <strong id="heroPendingCount">0</strong> pending assignments and <strong id="heroUpcomingExams">0</strong> upcoming exams this term.</p>
+            </div>
+            <div class="welcome-stats">
+              <div class="welcome-tag">
+                <span>Semester 6</span>
+                <span class="dot">•</span>
+                <span>B.Tech CSE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-icon blue-gradient">📚</div>
+              <div class="metric-info">
+                <span class="metric-label">Enrolled Courses</span>
+                <h3 class="metric-value" id="metricCoursesCount">0</h3>
+                <span class="metric-note">Across current term</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon purple-gradient">📈</div>
+              <div class="metric-info">
+                <span class="metric-label">Overall Attendance</span>
+                <h3 class="metric-value" id="metricAttendancePct">0%</h3>
+                <span class="metric-note text-success">Good Standing (&ge; 75%)</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon amber-gradient">⏳</div>
+              <div class="metric-info">
+                <span class="metric-label">Pending Assignments</span>
+                <h3 class="metric-value" id="metricPendingAssignments">0</h3>
+                <span class="metric-note text-warning">Requires submission</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon red-gradient">🎯</div>
+              <div class="metric-info">
+                <span class="metric-label">Upcoming Exams</span>
+                <h3 class="metric-value" id="metricUpcomingExams">0</h3>
+                <span class="metric-note">Next starts soon</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly Timetable & Upcoming Assignments Grid -->
+          <div class="dashboard-grid-two">
+            <!-- Weekly Timetable -->
+            <div class="card timetable-card">
+              <div class="card-header">
+                <div>
+                  <h3>Weekly Schedule</h3>
+                  <span class="card-subtitle">Classes & lab sessions for current week</span>
+                </div>
+                <div class="day-filter" id="timetableDays">
+                  <!-- Filled via JS -->
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="timetable-list" id="timetableList">
+                  <!-- Filled via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Assignments Quick View -->
+            <div class="card assignments-quick-card">
+              <div class="card-header">
+                <div>
+                  <h3>Upcoming Assignments</h3>
+                  <span class="card-subtitle">Due in the next few days</span>
+                </div>
+                <button class="text-link-btn" id="viewAllAssignmentsBtn">View All &rarr;</button>
+              </div>
+              <div class="card-body">
+                <div class="quick-assignments-list" id="quickAssignmentsList">
+                  <!-- Filled via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent College Announcements -->
+          <div class="card announcements-card">
+            <div class="card-header">
+              <div>
+                <h3>College Announcements</h3>
+                <span class="card-subtitle">Latest news, circulars, and campus events</span>
+              </div>
+              <span class="live-indicator"><span class="pulse-dot"></span> Live Board</span>
+            </div>
+            <div class="card-body">
+              <div class="announcements-grid" id="announcementsGrid">
+                <!-- Filled via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 2: MY COURSES ================= -->
+        <section id="section-courses" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Enrolled Courses</h2>
+              <p>Active course curriculum, faculty coordinators, and syllabus progress.</p>
+            </div>
+            <div class="search-box">
+              <input type="text" id="courseSearchInput" placeholder="Filter courses..." />
+            </div>
+          </div>
+          <div class="courses-grid" id="coursesGrid">
+            <!-- Rendered via JS -->
+          </div>
+        </section>
+
+        <!-- ================= SECTION 3: ATTENDANCE ================= -->
+        <section id="section-attendance" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Attendance Record</h2>
+              <p>Monitor your classroom attendance percentage per course. Minimum required: 75%.</p>
+            </div>
+            <div class="attendance-summary-badge" id="attendanceOverallBadge">
+              Overall: 88.5%
+            </div>
+          </div>
+
+          <div class="attendance-container">
+            <div class="card">
+              <div class="card-body">
+                <div class="attendance-list" id="attendanceList">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 4: ASSIGNMENTS ================= -->
+        <section id="section-assignments" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Coursework & Assignments</h2>
+              <p>Track deadlines, submissions, and mark deliverables as completed.</p>
+            </div>
+            <div class="assignment-filter-tabs" id="assignmentFilters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="pending">Pending</button>
+              <button class="filter-btn" data-filter="submitted">Completed</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="table-responsive">
+              <table class="dashboard-table" id="assignmentsTable">
+                <thead>
+                  <tr>
+                    <th>Assignment Name</th>
+                    <th>Course</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="assignmentsTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 5: EXAMINATION ================= -->
+        <section id="section-examination" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Examination Schedule</h2>
+              <p>Upcoming end-term theory exams, practical laboratories, and seat venues.</p>
+            </div>
+          </div>
+
+          <div class="exam-cards-grid" id="examGrid">
+            <!-- Rendered via JS -->
+          </div>
+        </section>
+
+        <!-- ================= SECTION 6: PROFILE ================= -->
+        <section id="section-profile" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Student Profile</h2>
+              <p>Official student registration and academic institutional details.</p>
+            </div>
+          </div>
+
+          <div class="profile-layout">
+            <!-- Profile Overview Card -->
+            <div class="card profile-card-main">
+              <div class="profile-banner-bg"></div>
+              <div class="profile-card-content">
+                <div class="profile-avatar-large" id="profileLargeAvatar">VS</div>
+                <h3 id="profileName">Vybhav Swaroop</h3>
+                <span class="profile-role" id="profileDepartment">Dept. of Computer Science & Engineering</span>
+                <span class="badge badge-success mt-2">Active Regular Student</span>
+
+                <div class="profile-quick-stats">
+                  <div class="p-stat">
+                    <span class="p-val" id="profileStatCourses">6</span>
+                    <span class="p-lbl">Courses</span>
+                  </div>
+                  <div class="p-stat">
+                    <span class="p-val" id="profileStatGpa">8.92</span>
+                    <span class="p-lbl">CGPA</span>
+                  </div>
+                  <div class="p-stat">
+                    <span class="p-val" id="profileStatCredits">124</span>
+                    <span class="p-lbl">Credits</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Detailed Information -->
+            <div class="card profile-card-details">
+              <div class="card-header">
+                <h3>Academic & Personal Information</h3>
+              </div>
+              <div class="card-body">
+                <div class="details-grid">
+                  <div class="detail-item">
+                    <span class="detail-label">Full Name</span>
+                    <span class="detail-value" id="profileDetailName">Vybhav Swaroop</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Roll / Registration Number</span>
+                    <span class="detail-value" id="profileDetailRoll">CS2023-0482</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Department</span>
+                    <span class="detail-value" id="profileDetailDept">Computer Science & Engineering</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Current Academic Year</span>
+                    <span class="detail-value" id="profileDetailYear">3rd Year (Semester VI)</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Official College Email</span>
+                    <span class="detail-value" id="profileDetailEmail">vybhav.swaroop@college.edu</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Academic Advisor / Mentor</span>
+                    <span class="detail-value" id="profileDetailAdvisor">Dr. Alan Turing, Professor</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Degree & Program</span>
+                    <span class="detail-value">Bachelor of Technology (Honors)</span>
+                  </div>
+
+                  <div class="detail-item">
+                    <span class="detail-label">Campus Residence</span>
+                    <span class="detail-value">Block B, Campus Hostel</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
