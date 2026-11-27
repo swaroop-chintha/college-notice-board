@@ -53,6 +53,12 @@
             </button>
           </li>
           <li>
+            <button class="nav-item" data-section="announcements">
+              <span class="nav-icon">📢</span>
+              <span class="nav-label">Announcements</span>
+            </button>
+          </li>
+          <li>
             <button class="nav-item" data-section="profile">
               <span class="nav-icon">👤</span>
               <span class="nav-label">Profile</span>
@@ -109,7 +115,7 @@
           <!-- Welcome Hero Banner -->
           <div class="welcome-banner">
             <div class="welcome-text">
-              <h2 id="welcomeHeading">Hello, Student! 👋</h2>
+              <h2 id="welcomeHeading">Your academic journey starts here!</h2>
               <p>You have <strong id="heroPendingCount">0</strong> pending assignments and <strong id="heroUpcomingExams">0</strong> upcoming exams this term.</p>
             </div>
             <div class="welcome-stats">
@@ -197,18 +203,21 @@
             </div>
           </div>
 
-          <!-- Recent College Announcements -->
-          <div class="card announcements-card">
+          <!-- Recent Announcements Section on Dashboard -->
+          <div class="card announcements-card" id="dashboardAnnouncementsCard">
             <div class="card-header">
               <div>
-                <h3>College Announcements</h3>
-                <span class="card-subtitle">Latest news, circulars, and campus events</span>
+                <h3>Recent Announcements</h3>
+                <span class="card-subtitle">Latest official news, academic circulars, and campus updates</span>
               </div>
-              <span class="live-indicator"><span class="pulse-dot"></span> Live Board</span>
+              <div class="header-actions">
+                <span class="live-indicator"><span class="pulse-dot"></span> Live Board</span>
+                <button class="view-all-btn" id="viewAllAnnouncementsBtn" title="View all announcements">View All &rarr;</button>
+              </div>
             </div>
             <div class="card-body">
               <div class="announcements-grid" id="announcementsGrid">
-                <!-- Filled via JS -->
+                <!-- Rendered via JS: 3 announcements with title, short description, date -->
               </div>
             </div>
           </div>
@@ -298,6 +307,34 @@
 
           <div class="exam-cards-grid" id="examGrid">
             <!-- Rendered via JS -->
+          </div>
+        </section>
+
+        <!-- ================= SECTION 6: RECENT ANNOUNCEMENTS ================= -->
+        <section id="section-announcements" class="content-section">
+          <div class="section-header-box">
+            <div>
+              <h2>Recent Announcements</h2>
+              <p>Campus circulars, administrative notices, and official college press releases.</p>
+            </div>
+            <button class="view-all-btn" id="refreshAnnouncementsBtn">
+              🔄 Refresh Board
+            </button>
+          </div>
+
+          <div class="card announcements-page-card">
+            <div class="card-header">
+              <div>
+                <h3>Official College Notices</h3>
+                <span class="card-subtitle">Archive of recent news and notices</span>
+              </div>
+              <span class="live-indicator"><span class="pulse-dot"></span> Active Feed</span>
+            </div>
+            <div class="card-body">
+              <div class="announcements-grid announcements-full-grid" id="allAnnouncementsGrid">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
           </div>
         </section>
 

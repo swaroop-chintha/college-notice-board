@@ -817,6 +817,33 @@ input {
 }
 
 /* College Announcements */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.view-all-btn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  background-color: var(--primary-blue-light);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+}
+
+.view-all-btn:hover {
+  background-color: var(--primary-blue);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
 .live-indicator {
   display: flex;
   align-items: center;
