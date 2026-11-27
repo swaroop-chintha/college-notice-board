@@ -295,6 +295,8 @@ function initSidebarAndNavigation() {
   const sidebarOverlay = document.getElementById("sidebarOverlay");
   const navItems = document.querySelectorAll(".nav-item");
   const viewAllAssignmentsBtn = document.getElementById("viewAllAssignmentsBtn");
+  const viewAllAnnouncementsBtn = document.getElementById("viewAllAnnouncementsBtn");
+  const refreshAnnouncementsBtn = document.getElementById("refreshAnnouncementsBtn");
 
   // Section titles dictionary for dynamic topbar title update
   const sectionHeaders = {
@@ -317,6 +319,10 @@ function initSidebarAndNavigation() {
     examination: {
       title: "Examination Schedule",
       subtitle: "Upcoming end-term theory exams, practical laboratories, and seat venues."
+    },
+    announcements: {
+      title: "Recent Announcements",
+      subtitle: "Official circulars, administrative alerts, and campus activities."
     },
     profile: {
       title: "Student Profile",
@@ -369,6 +375,18 @@ function initSidebarAndNavigation() {
     });
   }
 
+  if (viewAllAnnouncementsBtn) {
+    viewAllAnnouncementsBtn.addEventListener("click", () => {
+      navigateToSection("announcements");
+    });
+  }
+
+  if (refreshAnnouncementsBtn) {
+    refreshAnnouncementsBtn.addEventListener("click", () => {
+      renderAnnouncements();
+    });
+  }
+
   // Mobile Drawer Toggle
   function openMobileSidebar() {
     sidebar.classList.add("open");
@@ -391,7 +409,11 @@ function initSidebarAndNavigation() {
 function renderStudentProfileHeaders() {
   const profile = studentData.profile;
 
-  document.getElementById("welcomeHeading").textContent = `Hello, ${profile.fullName.split(" ")[0]}! 👋`;
+  // Keep user-configured welcome message intact if already set
+  const welcomeHeading = document.getElementById("welcomeHeading");
+  if (!welcomeHeading.textContent || welcomeHeading.textContent.startsWith("Hello,")) {
+    welcomeHeading.textContent = "Your academic journey starts here!";
+  }
   document.getElementById("sidebarAvatar").textContent = profile.initials;
   document.getElementById("sidebarUserName").textContent = profile.fullName;
   document.getElementById("sidebarUserDept").textContent = profile.department;
@@ -512,7 +534,12 @@ function renderDashboardQuickAssignments() {
 
 function renderDashboardAnnouncements() {
   const grid = document.getElementById("announcementsGrid");
-  grid.innerHTML = studentData.announcements
+  const allGrid = document.getElementById("allAnnouncementsGrid");
+  
+  // Exactly 3 announcements for the dashboard recent announcements component
+  const announcementsList = studentData.announcements.slice(0, 3);
+
+  const html = announcementsList
     .map(
       (item) => `
       <div class="announcement-card">
@@ -526,6 +553,13 @@ function renderDashboardAnnouncements() {
     `
     )
     .join("");
+
+  if (grid) grid.innerHTML = html;
+  if (allGrid) allGrid.innerHTML = html;
+}
+
+function renderAnnouncements() {
+  renderDashboardAnnouncements();
 }
 
 // ==========================================
